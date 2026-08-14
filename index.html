@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,
+      maximum-scale=1.0,user-scalable=no">
+
+<meta name="theme-color" content="#0b0b0f">
+
+<title>coin List </title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#0b0b0f;
+    --panel:#15151a;
+    --border:#29292f;
+    --text:#f5f5f7;
+    --muted:#85858e;
+    --purple:#635bff;
+    --purple2:#7b73ff;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+.app{
+    width:100%;
+    max-width:520px;
+    min-height:100vh;
+    margin:0 auto;
+    background:var(--bg);
+    position:relative;
+}
+
+/* HEADER */
+
+.header{
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    border-bottom:1px solid rgba(255,255,255,.025);
+}
+
+.back{
+    position:absolute;
+    left:17px;
+    top:17px;
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#bdbdc3;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.title{
+    font-size:16px;
+    font-weight:650;
+}
+
+/* CONTENT */
+
+.content{
+    padding:14px 16px 105px;
+}
+
+/* WALLET */
+
+.wallet-row{
+    width:100%;
+    display:flex;
+    gap:8px;
+    margin-bottom:12px;
+}
+
+.wallet-box{
+    flex:1;
+    min-width:0;
+    height:42px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    padding:0 11px;
+    color:#bcbcc3;
+    font-size:11px;
+}
+
+.wallet-box.right{
+    justify-content:flex-end;
+    color:#85858e;
+}
+
+/* COIN */
+
+.coin-selector{
+    width:100%;
+    min-height:66px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:11px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+}
+
+.coin-selector:active{
+    transform:scale(.985);
+}
+
+.coin-logo{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    object-fit:contain;
+    flex:none;
+    display:block;
+}
+
+.coin-info{
+    flex:1;
+    min-width:0;
+}
+
+.coin-symbol{
+    color:#f4f4f6;
+    font-size:14px;
+    font-weight:650;
+}
+
+.coin-network{
+    color:#85858e;
+    font-size:11px;
+    margin-top:3px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.chevron{
+    color:#85858e;
+    font-size:23px;
+}
+
+/* LABEL */
+
+.label{
+    display:block;
+    margin:19px 0 8px;
+    color:#e4e4e8;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* INPUT */
+
+.input-wrap{
+    position:relative;
+    width:100%;
+}
+
+.input{
+    width:100%;
+    height:48px;
+    border:1px solid var(--border);
+    outline:none;
+    background:var(--panel);
+    color:#f5f5f7;
+    border-radius:8px;
+    padding:0 60px 0 12px;
+    font-size:13px;
+}
+
+.input:focus{
+    border-color:#44444d;
+}
+
+.input::placeholder{
+    color:#55555d;
+}
+
+.paste{
+    position:absolute;
+    right:12px;
+    top:17px;
+    color:#65d993;
+    font-size:10px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+/* VALIDATION */
+
+.validation{
+    width:100%;
+    margin-top:8px;
+    min-height:43px;
+    border-radius:8px;
+    background:#131318;
+    border:1px solid #27272d;
+    padding:9px 10px;
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    color:#777780;
+    font-size:10px;
+    line-height:15px;
+}
+
+.validation-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#68686f;
+    flex:none;
+    margin-top:4px;
+}
+
+.validation.valid{
+    border-color:#175a36;
+    color:#6cdb99;
+}
+
+.validation.valid .validation-dot{
+    background:#24d36a;
+    box-shadow:0 0 8px rgba(36,211,106,.55);
+}
+
+.validation.invalid{
+    border-color:#642727;
+    color:#ff7777;
+}
+
+.validation.invalid .validation-dot{
+    background:#ff4f4f;
+}
+
+/* AMOUNT */
+
+.amount-wrap{
+    position:relative;
+}
+
+.amount-input{
+    padding-right:92px;
+}
+
+.max{
+    position:absolute;
+    right:48px;
+    top:18px;
+    color:#898991;
+    font-size:9px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.unit{
+    position:absolute;
+    right:12px;
+    top:17px;
+    color:#74747c;
+    font-size:10px;
+    font-weight:600;
+}
+
+.balance{
+    margin-top:8px;
+    color:#707078;
+    font-size:10px;
+}
+
+.balance strong{
+    color:#8585e9;
+    font-weight:600;
+}
+
+/* MEMO */
+
+.memo{
+    width:100%;
+    height:48px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    outline:none;
+    border-radius:8px;
+    color:#eeeef1;
+    padding:14px 12px;
+    resize:none;
+    font-family:inherit;
+    font-size:12px;
+}
+
+.memo::placeholder{
+    color:#55555d;
+}
+
+/* NEXT */
+
+.next-button{
+    position:fixed;
+    z-index:30;
+    bottom:14px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 32px);
+    max-width:488px;
+    height:49px;
+    border:0;
+    outline:0;
+    border-radius:8px;
+    color:#fff;
+    font-size:13px;
+    font-weight:650;
+    background:linear-gradient(
+        100deg,
+        #5c55f4,
+        #756dff
+    );
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
+    cursor:pointer;
+}
+
+.next-button:disabled{
+    opacity:.38;
+    cursor:not-allowed;
+}
+
+/* MODALS */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    background:rgba(0,0,0,.72);
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.sheet{
+    width:100%;
+    max-width:520px;
+    max-height:82vh;
+    overflow-y:auto;
+    background:#17171c;
+    border-radius:18px 18px 0 0;
+    padding:18px 15px 28px;
+    animation:sheetUp .22s ease;
+}
+
+@keyframes sheetUp{
+    from{
+        transform:translateY(100%);
+    }
+
+    to{
+        transform:translateY(0);
+    }
+}
+
+.sheet-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:13px;
+}
+
+.sheet-title{
+    font-size:16px;
+    font-weight:700;
+}
+
+.close{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    background:#24242a;
+    color:#aaaab2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* COIN OPTION */
+
+.coin-option{
+    min-height:60px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:9px 8px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.coin-option:active{
+    background:#24242a;
+}
+
+.coin-option img{
+    width:36px;
+    height:36px;
+    object-fit:contain;
+    border-radius:50%;
+    display:block;
+}
+
+.option-info{
+    flex:1;
+}
+
+.option-symbol{
+    color:#f4f4f6;
+    font-size:14px;
+    font-weight:650;
+}
+
+.option-name{
+    color:#777780;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.option-arrow{
+    color:#777780;
+    font-size:21px;
+}
+
+/* NETWORK */
+
+.network-subtitle{
+    color:#777780;
+    font-size:10px;
+    margin-top:4px;
+}
+
+.network-option{
+    width:100%;
+    padding:14px;
+    margin-bottom:8px;
+    border-radius:9px;
+    background:#202025;
+    border:1px solid #2b2b31;
+    cursor:pointer;
+}
+
+.network-option:active{
+    transform:scale(.99);
+}
+
+.network-name{
+    color:#f0f0f2;
+    font-size:13px;
+    font-weight:650;
+}
+
+.network-description{
+    color:#777780;
+    font-size:10px;
+    margin-top:5px;
+}
+
+/* GAS FEE MODAL - TrustWallet Style */
+
+.gas-modal{
+    position:fixed;
+    inset:0;
+    z-index:150;
+    background:rgba(0,0,0,.75);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.gas-modal.show{
+    display:flex;
+}
+
+.gas-modal-content{
+    width:100%;
+    max-width:400px;
+    background:var(--panel);
+    border-radius:20px;
+    padding:24px;
+    border:1px solid var(--border);
+    animation:slideUp .3s ease;
+}
+
+@keyframes slideUp{
+    from{
+        transform:translateY(40px);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0);
+        opacity:1;
+    }
+}
+
+.gas-modal-header{
+    text-align:center;
+    margin-bottom:24px;
+}
+
+.gas-modal-title{
+    font-size:18px;
+    font-weight:700;
+    color:var(--text);
+    margin-bottom:8px;
+}
+
+.gas-modal-subtitle{
+    font-size:12px;
+    color:var(--muted);
+}
+
+.gas-modal-details{
+    background:#131318;
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:20px;
+    border:1px solid #27272d;
+}
+
+.detail-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:14px;
+    padding-bottom:14px;
+    border-bottom:1px solid #27272d;
+}
+
+.detail-row:last-child{
+    margin-bottom:0;
+    padding-bottom:0;
+    border-bottom:none;
+}
+
+.detail-label{
+    font-size:13px;
+    color:var(--muted);
+    font-weight:500;
+}
+
+.detail-value{
+    font-size:13px;
+    color:var(--text);
+    font-weight:600;
+}
+
+.detail-value.highlight{
+    color:#635bff;
+}
+
+.detail-address{
+    font-size:11px;
+    font-family:monospace;
+    color:#8585e9;
+    max-width:200px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.gas-modal-summary{
+    background:linear-gradient(135deg, rgba(99,91,255,.1) 0%, rgba(123,115,255,.05) 100%);
+    border:1px solid rgba(99,91,255,.2);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:20px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.summary-row:last-child{
+    margin-bottom:0;
+    padding-top:8px;
+    border-top:1px solid rgba(99,91,255,.2);
+}
+
+.summary-label{
+    font-size:12px;
+    color:var(--muted);
+}
+
+.summary-value{
+    font-size:12px;
+    color:var(--text);
+    font-weight:600;
+}
+
+.summary-value.total{
+    font-size:14px;
+    color:#635bff;
+    font-weight:700;
+}
+
+.gas-modal-buttons{
+    display:flex;
+    gap:12px;
+}
+
+.gas-modal-button{
+    flex:1;
+    height:48px;
+    border:none;
+    border-radius:10px;
+    font-size:13px;
+    font-weight:650;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.gas-modal-button.cancel{
+    background:var(--border);
+    color:var(--text);
+}
+
+.gas-modal-button.cancel:active{
+    transform:scale(.98);
+    opacity:.8;
+}
+
+.gas-modal-button.confirm{
+    background:linear-gradient(
+        100deg,
+        #5c55f4,
+        #756dff
+    );
+    color:#fff;
+    box-shadow:0 8px 20px rgba(99,91,255,.3);
+}
+
+.gas-modal-button.confirm:active{
+    transform:scale(.98);
+    opacity:.9;
+}
+
+.gas-modal-button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+/* PROCESSING */
+
+.processing{
+    position:fixed;
+    inset:0;
+    z-index:200;
+    background:rgba(6,6,9,.91);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.processing.show{
+    display:flex;
+}
+
+.loader{
+    width:47px;
+    height:47px;
+    border-radius:50%;
+    border:4px solid #303038;
+    border-top-color:#746cff;
+    animation:rotate .8s linear infinite;
+}
+
+.processing-text{
+    margin-top:17px;
+    color:#aaaab1;
+    font-size:12px;
+}
+
+@keyframes rotate{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* SUCCESS */
+
+.success{
+    position:fixed;
+    inset:0;
+    z-index:250;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    padding:25px;
+    background:#0b0b0f;
+}
+
+.success.show{
+    display:flex;
+}
+
+.success-icon{
+    width:76px;
+    height:76px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#32df78;
+    font-size:40px;
+    font-weight:700;
+    background:linear-gradient(
+        145deg,
+        #123c26,
+        #1b6d3b
+    );
+    box-shadow:
+        0 0 35px rgba(40,220,115,.16);
+    margin-bottom:20px;
+}
+
+.success-title{
+    color:#fff;
+    font-size:21px;
+    font-weight:700;
+}
+
+.success-text{
+    color:#81818a;
+    font-size:12px;
+    line-height:19px;
+    margin-top:9px;
+}
+
+.done-button{
+    width:180px;
+    height:45px;
+    margin-top:27px;
+    border:0;
+    border-radius:8px;
+    color:#fff;
+    background:#635bff;
+    font-weight:600;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    z-index:500;
+    left:50%;
+    bottom:80px;
+    transform:translate(-50%,20px);
+    padding:10px 15px;
+    border-radius:8px;
+    background:#292930;
+    color:#fff;
+    font-size:11px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<header class="header">
+
+    <div
+        class="back"
+        onclick="goBack()">
+        ‹
+    </div>
+
+    <div class="title">
+        Send
+    </div>
+
+</header>
+
+
+<main class="content">
+
+    <div class="wallet-row">
+
+        <div class="wallet-box">
+            ◉ Wallet0-PDR
+        </div>
+
+        <div class="wallet-box right">
+            .....221T
+        </div>
+
+    </div>
+
+
+    <!-- COIN SELECTOR -->
+
+    <div
+        class="coin-selector"
+        onclick="openCoinModal()">
+
+        <img
+            id="selectedLogo"
+            class="coin-logo"
+            src="https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/trx.png"
+            alt="TRX"
+            onerror="logoFallback(this)">
+
+        <div class="coin-info">
+
+            <div
+                id="selectedSymbol"
+                class="coin-symbol">
+                TRX
+            </div>
+
+            <div
+                id="selectedNetwork"
+                class="coin-network">
+                Tron
+            </div>
+
+        </div>
+
+        <div class="chevron">
+            ›
+        </div>
+
+    </div>
+
+
+    <!-- ADDRESS -->
+
+    <label class="label">
+        To
+    </label>
+
+    <div class="input-wrap">
+
+        <input
+            id="address"
+            class="input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Enter address"
+            oninput="validateAddress()">
+
+        <span
+            class="paste"
+            onclick="pasteAddress()">
+            Paste
+        </span>
+
+    </div>
+
+
+    <!-- VALIDATION -->
+
+    <div
+        id="validation"
+        class="validation">
+
+        <div class="validation-dot"></div>
+
+        <div id="validationText">
+            Please ensure that the receiving address
+            supports the selected network.
+        </div>
+
+    </div>
+
+
+    <!-- AMOUNT -->
+
+    <label class="label">
+        Amount
+    </label>
+
+    <div class="amount-wrap">
+
+        <input
+            id="amount"
+            class="input amount-input"
+            type="number"
+            min="0"
+            step="any"
+            placeholder="0.00"
+            oninput="checkForm()">
+
+        <span
+            class="max"
+            onclick="setMax()">
+            MAX
+        </span>
+
+        <span
+            id="amountUnit"
+            class="unit">
+            TRX
+        </span>
+
+    </div>
+
+
+    <div class="balance">
+
+        Available balance:
+
+        <strong id="balance">
+            214.78725 TRX
+        </strong>
+
+    </div>
+
+
+    <!-- MEMO -->
+
+    <label class="label">
+        MEMO
+    </label>
+
+    <textarea
+        id="memo"
+        class="memo"
+        placeholder="Optional"></textarea>
+
+</main>
+
+
+<button
+    id="nextButton"
+    class="next-button"
+    disabled
+    onclick="openGasModal()">
+    Next
+</button>
+
+</div>
+
+
+<!-- COIN MODAL -->
+
+<div
+    id="coinModal"
+    class="modal"
+    onclick="coinOutside(event)">
+
+    <div class="sheet">
+
+        <div class="sheet-head">
+
+            <div class="sheet-title">
+                Select asset
+            </div>
+
+            <div
+                class="close"
+                onclick="closeCoinModal()">
+                ×
+            </div>
+
+        </div>
+
+        <div id="coinList"></div>
+
+    </div>
+
+</div>
+
+
+<!-- NETWORK MODAL -->
+
+<div
+    id="networkModal"
+    class="modal"
+    onclick="networkOutside(event)">
+
+    <div class="sheet">
+
+        <div class="sheet-head">
+
+            <div>
+
+                <div class="sheet-title">
+                    Select network
+                </div>
+
+                <div
+                    id="networkSubtitle"
+                    class="network-subtitle">
+                </div>
+
+            </div>
+
+            <div
+                class="close"
+                onclick="closeNetworkModal()">
+                ×
+            </div>
+
+        </div>
+
+        <div id="networkList"></div>
+
+    </div>
+
+</div>
+
+
+<!-- GAS FEE MODAL - TrustWallet Style -->
+
+<div id="gasModal" class="gas-modal">
+
+    <div class="gas-modal-content">
+
+        <div class="gas-modal-header">
+
+            <div class="gas-modal-title">
+                Review Transaction
+            </div>
+
+            <div class="gas-modal-subtitle">
+                Confirm the details below
+            </div>
+
+        </div>
+
+
+        <div class="gas-modal-details">
+
+            <div class="detail-row">
+
+                <span class="detail-label">To</span>
+
+                <span
+                    id="gasModalAddress"
+                    class="detail-address">
+                    —
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">Amount</span>
+
+                <span class="detail-value">
+                    <span id="gasModalAmount">0</span>
+                    <span id="gasModalSymbol">TRX</span>
+                </span>
+
+            </div>
+
+
+            <div class="detail-row">
+
+                <span class="detail-label">Network Fee</span>
+
+                <span class="detail-value highlight">
+                    <span id="gasModalFee">0</span>
+                    <span id="gasModalFeeSymbol">TRX</span>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="gas-modal-summary">
+
+            <div class="summary-row">
+
+                <span class="summary-label">You'll send</span>
+
+                <span class="summary-value">
+                    <span id="gasModalSubtotal">0</span>
+                    <span id="gasModalSubtotalSymbol">TRX</span>
+                </span>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span class="summary-label">Total cost</span>
+
+                <span class="summary-value total">
+                    <span id="gasModalTotal">0</span>
+                    <span id="gasModalTotalSymbol">TRX</span>
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="gas-modal-buttons">
+
+            <button
+                class="gas-modal-button cancel"
+                onclick="closeGasModal()">
+                Cancel
+            </button>
+
+            <button
+                class="gas-modal-button confirm"
+                onclick="confirmTransaction()">
+                Confirm
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- PROCESSING -->
+
+<div
+    id="processing"
+    class="processing">
+
+    <div class="loader"></div>
+
+    <div class="processing-text">
+        Processing...
+    </div>
+
+</div>
+
+
+<!-- SUCCESS -->
+
+<div
+    id="success"
+    class="success">
+
+    <div class="success-icon">
+        ✓
+    </div>
+
+    <div class="success-title">
+         completed
+    </div>
+
+    <div class="success-text">
+        Transaction created.<br>
+         Asset transferred successfully.
+    </div>
+
+    <button
+        class="done-button"
+        onclick="closeSuccess()">
+        Done
+    </button>
+
+</div>
+
+
+<div
+    id="toast"
+    class="toast">
+</div>
+
+
+<script>
+
+/* =====================================================
+   COINS + SIMULATED BALANCES + GAS FEES
+===================================================== */
+
+const COINS = {
+
+    TRX:{
+        symbol:"TRX",
+        name:"Tron",
+
+        logo:
+        "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/trx.png",
+
+        balance:214.78725,
+
+        networks:{
+            TRX:{
+                name:"Tron",
+                description:"TRON / TRC20 address",
+                regex:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,
+                gasFee:0
+            }
+        }
+    },
+
+
+    BTC:{
+        symbol:"BTC",
+        name:"Bitcoin",
+
+        logo:
+        "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/btc.png",
+
+        balance:0.00,
+
+        networks:{
+            BTC:{
+                name:"Bitcoin",
+                description:"Bitcoin mainnet address",
+                regex:/^(bc1[a-z0-9]{11,87}|[13][a-km-zA-HJ-NP-Z1-9]{25,39})$/,
+                gasFee:0
+            }
+        }
+    },
+
+
+    ETH:{
+        symbol:"ETH",
+        name:"Ethereum",
+
+        logo:
+        "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/eth.png",
+
+        balance:0.01353,
+
+        networks:{
+            ERC20:{
+                name:"Ethereum / ERC20",
+                description:"Ethereum-compatible address",
+                regex:/^0x[a-fA-F0-9]{40}$/,
+                gasFee:0
+            }
+        }
+    },
+
+
+    BNB:{
+        symbol:"BNB",
+        name:"BNB",
+
+        logo:
+        "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/bnb.png",
+
+        balance:0.00,
+
+        networks:{
+            BEP20:{
+                name:"BNB Smart Chain / BEP20",
+                description:"BSC / BEP20 address",
+                regex:/^0x[a-fA-F0-9]{40}$/,
+                gasFee:0
+            }
+        }
+    },
+
+
+    XRP:{
+        symbol:"XRP",
+        name:"XRP",
+
+        logo:
+        "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/xrp.png",
+
+        balance:0.00,
+
+        networks:{
+            XRP:{
+                name:"XRP Ledger",
+                description:"XRP Ledger address",
+                regex:/^r[1-9A-HJ-NP-Za-km-z]{24,34}$/,
+                gasFee:0
+            }
+        }
+    },
+
+
+    USDT:{
+        symbol:"USDT",
+        name:"Tether",
+
+        logo:
+        "https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/usdt.png",
+
+        balance:250000,
+
+        networks:{
+
+            ERC20:{
+                name:"Ethereum / ERC20",
+                description:"USDT ERC20 address",
+                regex:/^0x[a-fA-F0-9]{40}$/,
+                gasFee:0.002,
+                gasFeeSymbol:"ETH"
+            },
+
+            TRC20:{
+                name:"TRON / TRC20",
+                description:"USDT TRC20 address",
+                regex:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,
+                gasFee:50,
+                gasFeeSymbol:"TRX"
+            },
+
+            BEP20:{
+                name:"BNB Smart Chain / BEP20",
+                description:"USDT BEP20 address",
+                regex:/^0x[a-fA-F0-9]{40}$/,
+                gasFee:0.0017,
+                gasFeeSymbol:"BNB"
+            }
+
+        }
+    }
+
+};
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let selectedCoin = "TRX";
+let selectedNetwork = "TRX";
+
+
+/* =====================================================
+   START
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        renderCoinList();
+
+        updateInterface();
+
+    }
+);
+
+
+/* =====================================================
+   LOGO FALLBACK
+===================================================== */
+
+function logoFallback(img){
+
+    if(img.dataset.fallback){
+        return;
+    }
+
+    img.dataset.fallback = "true";
+
+    const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg"
+        width="128" height="128"
+        viewBox="0 0 128 128">
+
+        <circle
+            cx="64"
+            cy="64"
+            r="64"
+            fill="#EF0027"/>
+
+        <path
+            fill="#fff"
+            d="M24 29h80L64 99 24 29zm13 9l27 8 27-8-27 48-27-48zm5-1l22 5 22-5H42z"/>
+
+        </svg>`;
+
+    img.src =
+        "data:image/svg+xml;charset=UTF-8,"
+        + encodeURIComponent(svg);
+}
+
+
+/* =====================================================
+   COIN LIST
+===================================================== */
+
+function renderCoinList(){
+
+    const list =
+        document.getElementById("coinList");
+
+    list.innerHTML = "";
+
+    Object.keys(COINS).forEach(
+        function(symbol){
+
+            const coin =
+                COINS[symbol];
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "coin-option";
+
+            item.innerHTML = `
+
+                <img
+                    src="${coin.logo}"
+                    alt="${coin.symbol}"
+                    onerror="logoFallback(this)">
+
+                <div class="option-info">
+
+                    <div class="option-symbol">
+                        ${coin.symbol}
+                    </div>
+
+                    <div class="option-name">
+                        ${coin.name}
+                    </div>
+
+                </div>
+
+                <div class="option-arrow">
+                    ›
+                </div>
+            `;
+
+            item.onclick =
+                function(){
+
+                    chooseCoin(symbol);
+
+                };
+
+            list.appendChild(item);
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SELECT COIN
+===================================================== */
+
+function chooseCoin(symbol){
+
+    selectedCoin = symbol;
+
+    closeCoinModal();
+
+    const networks =
+        Object.keys(
+            COINS[symbol].networks
+        );
+
+    if(networks.length === 1){
+
+        selectedNetwork =
+            networks[0];
+
+        updateInterface();
+
+    }else{
+
+        openNetworkModal();
+
+    }
+
+}
+
+
+/* =====================================================
+   COIN MODAL
+===================================================== */
+
+function openCoinModal(){
+
+    document
+        .getElementById("coinModal")
+        .classList.add("show");
+
+}
+
+function closeCoinModal(){
+
+    document
+        .getElementById("coinModal")
+        .classList.remove("show");
+
+}
+
+function coinOutside(event){
+
+    if(
+        event.target.id ===
+        "coinModal"
+    ){
+
+        closeCoinModal();
+
+    }
+
+}
+
+
+/* =====================================================
+   NETWORK MODAL
+===================================================== */
+
+function openNetworkModal(){
+
+    const coin =
+        COINS[selectedCoin];
+
+    document
+        .getElementById("networkSubtitle")
+        .textContent =
+        "Select a network for "
+        + coin.name;
+
+    const list =
+        document.getElementById("networkList");
+
+    list.innerHTML = "";
+
+    Object.keys(
+        coin.networks
+    ).forEach(
+        function(networkKey){
+
+            const network =
+                coin.networks[networkKey];
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "network-option";
+
+            item.innerHTML = `
+
+                <div class="network-name">
+                    ${network.name}
+                </div>
+
+                <div class="network-description">
+                    ${network.description}
+                </div>
+
+            `;
+
+            item.onclick =
+                function(){
+
+                    selectedNetwork =
+                        networkKey;
+
+                    closeNetworkModal();
+
+                    updateInterface();
+
+                };
+
+            list.appendChild(item);
+
+        }
+    );
+
+    document
+        .getElementById("networkModal")
+        .classList.add("show");
+
+}
+
+
+function closeNetworkModal(){
+
+    document
+        .getElementById("networkModal")
+        .classList.remove("show");
+
+}
+
+
+function networkOutside(event){
+
+    if(
+        event.target.id ===
+        "networkModal"
+    ){
+
+        closeNetworkModal();
+
+    }
+
+}
+
+
+/* =====================================================
+   UPDATE INTERFACE
+===================================================== */
+
+function updateInterface(){
+
+    const coin =
+        COINS[selectedCoin];
+
+    const network =
+        coin.networks[selectedNetwork];
+
+    const logo =
+        document.getElementById("selectedLogo");
+
+    logo.onerror =
+        function(){
+            logoFallback(this);
+        };
+
+    logo.src =
+        coin.logo;
+
+    document
+        .getElementById("selectedSymbol")
+        .textContent =
+        coin.symbol;
+
+    document
+        .getElementById("selectedNetwork")
+        .textContent =
+        network.name;
+
+    document
+        .getElementById("amountUnit")
+        .textContent =
+        coin.symbol;
+
+    document
+        .getElementById("balance")
+        .textContent =
+        formatBalance(coin.balance)
+        + " "
+        + coin.symbol;
+
+    document
+        .getElementById("address")
+        .value = "";
+
+    document
+        .getElementById("amount")
+        .value = "";
+
+    resetValidation();
+
+    checkForm();
+
+}
+
+
+/* =====================================================
+   ADDRESS VALIDATION
+===================================================== */
+
+function validateAddress(){
+
+    const address =
+        document
+        .getElementById("address")
+        .value
+        .trim();
+
+    const validation =
+        document.getElementById("validation");
+
+    const text =
+        document.getElementById("validationText");
+
+    if(!address){
+
+        resetValidation();
+
+        checkForm();
+
+        return false;
+
+    }
+
+    const coin =
+        COINS[selectedCoin];
+
+    const network =
+        coin.networks[selectedNetwork];
+
+    const valid =
+        network.regex.test(address);
+
+    if(valid){
+
+        validation.className =
+            "validation valid";
+
+        text.textContent =
+            "Address format is valid for "
+            + network.name
+            + ".";
+
+    }else{
+
+        validation.className =
+            "validation invalid";
+
+        text.textContent =
+            "Invalid address format for "
+            + network.name
+            + ".";
+
+    }
+
+    checkForm();
+
+    return valid;
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetValidation(){
+
+    const validation =
+        document.getElementById("validation");
+
+    const text =
+        document.getElementById("validationText");
+
+    validation.className =
+        "validation";
+
+    text.textContent =
+        "Please ensure that the receiving address "
+        + "supports the selected network.";
+
+}
+
+
+/* =====================================================
+   FORM CHECK
+===================================================== */
+
+function checkForm(){
+
+    const address =
+        document
+        .getElementById("address")
+        .value
+        .trim();
+
+    const amount =
+        parseFloat(
+            document
+            .getElementById("amount")
+            .value
+        ) || 0;
+
+    const coin =
+        COINS[selectedCoin];
+
+    const network =
+        coin.networks[selectedNetwork];
+
+    const addressValid =
+        address.length > 0 &&
+        network.regex.test(address);
+
+    const amountValid =
+        amount > 0 &&
+        amount <= coin.balance;
+
+    let gasFeeValid = true;
+
+    if(network.gasFee > 0){
+
+        gasFeeValid = amount + network.gasFee <= coin.balance;
+
+    }
+
+    document
+        .getElementById("nextButton")
+        .disabled =
+        !(addressValid && amountValid && gasFeeValid);
+
+}
+
+
+/* =====================================================
+   MAX
+===================================================== */
+
+function setMax(){
+
+    const coin =
+        COINS[selectedCoin];
+
+    const network =
+        coin.networks[selectedNetwork];
+
+    const maxAmount =
+        network.gasFee > 0
+        ? coin.balance - network.gasFee
+        : coin.balance;
+
+    document
+        .getElementById("amount")
+        .value =
+        Math.max(0, maxAmount);
+
+    checkForm();
+
+}
+
+
+/* =====================================================
+   PASTE
+===================================================== */
+
+async function pasteAddress(){
+
+    try{
+
+        const value =
+            await navigator
+            .clipboard
+            .readText();
+
+        document
+            .getElementById("address")
+            .value =
+            value;
+
+        validateAddress();
+
+    }catch(error){
+
+        showToast(
+            "Clipboard permission unavailable"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   GAS MODAL - TrustWallet Style
+===================================================== */
+
+function openGasModal(){
+
+    const address =
+        document
+        .getElementById("address")
+        .value
+        .trim();
+
+    const amount =
+        parseFloat(
+            document
+            .getElementById("amount")
+            .value
+        ) || 0;
+
+    const coin =
+        COINS[selectedCoin];
+
+    const network =
+        coin.networks[selectedNetwork];
+
+    if(!network.regex.test(address)){
+
+        showToast(
+            "Invalid receiving address"
+        );
+
+        return;
+
+    }
+
+    if(!amount || amount <= 0){
+
+        showToast(
+            "Invalid amount"
+        );
+
+        return;
+
+    }
+
+    const gasFee =
+        network.gasFee || 0;
+
+    const feeSymbol =
+        network.gasFeeSymbol || coin.symbol;
+
+    const total =
+        amount + gasFee;
+
+    document
+        .getElementById("gasModalAddress")
+        .textContent =
+        truncateAddress(address);
+
+    document
+        .getElementById("gasModalAmount")
+        .textContent =
+        formatBalance(amount);
+
+    document
+        .getElementById("gasModalSymbol")
+        .textContent =
+        coin.symbol;
+
+    document
+        .getElementById("gasModalFee")
+        .textContent =
+        formatBalance(gasFee);
+
+    document
+        .getElementById("gasModalFeeSymbol")
+        .textContent =
+        feeSymbol;
+
+    document
+        .getElementById("gasModalSubtotal")
+        .textContent =
+        formatBalance(amount);
+
+    document
+        .getElementById("gasModalSubtotalSymbol")
+        .textContent =
+        coin.symbol;
+
+    document
+        .getElementById("gasModalTotal")
+        .textContent =
+        formatBalance(total);
+
+    document
+        .getElementById("gasModalTotalSymbol")
+        .textContent =
+        coin.symbol;
+
+    document
+        .getElementById("gasModal")
+        .classList.add("show");
+
+}
+
+
+function closeGasModal(){
+
+    document
+        .getElementById("gasModal")
+        .classList.remove("show");
+
+}
+
+
+function truncateAddress(address){
+
+    if(address.length <= 12){
+        return address;
+    }
+
+    return (
+        address.substring(0, 6)
+        + "..."
+        + address.substring(address.length - 6)
+    );
+
+}
+
+
+function confirmTransaction(){
+
+    const address =
+        document
+        .getElementById("address")
+        .value
+        .trim();
+
+    const amount =
+        parseFloat(
+            document
+            .getElementById("amount")
+            .value
+        );
+
+    const coin =
+        COINS[selectedCoin];
+
+    const network =
+        coin.networks[selectedNetwork];
+
+    if(!network.regex.test(address)){
+
+        showToast(
+            "Invalid receiving address"
+        );
+
+        return;
+
+    }
+
+    if(
+        !amount ||
+        amount <= 0 ||
+        amount > coin.balance
+    ){
+
+        showToast(
+            "Invalid amount"
+        );
+
+        return;
+
+    }
+
+    if(
+        network.gasFee > 0 &&
+        amount + network.gasFee > coin.balance
+    ){
+
+        showToast(
+            "Insufficient balance for gas fee"
+        );
+
+        return;
+
+    }
+
+    closeGasModal();
+
+    document
+        .getElementById("processing")
+        .classList.add("show");
+
+    setTimeout(
+        function(){
+
+            const totalDeduction =
+                amount + network.gasFee;
+
+            coin.balance =
+                coin.balance - totalDeduction;
+
+            document
+                .getElementById("processing")
+                .classList.remove("show");
+
+            document
+                .getElementById("success")
+                .classList.add("show");
+
+        },
+        2200
+    );
+
+}
+
+
+/* =====================================================
+   SUCCESS
+===================================================== */
+
+function closeSuccess(){
+
+    document
+        .getElementById("success")
+        .classList.remove("show");
+
+    document
+        .getElementById("address")
+        .value = "";
+
+    document
+        .getElementById("amount")
+        .value = "";
+
+    updateInterface();
+
+    showToast(
+        "balance updated"
+    );
+
+}
+
+
+/* =====================================================
+   FORMAT
+===================================================== */
+
+function formatBalance(value){
+
+    return Number(value)
+        .toLocaleString(
+            undefined,
+            {
+                minimumFractionDigits:
+                    value === 0 ? 2 : 0,
+
+                maximumFractionDigits:8
+            }
+        );
+
+}
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+function goBack(){
+
+    if(window.history.length > 1){
+
+        window.history.back();
+
+    }else{
+
+        showToast("Back");
+
+    }
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+    window.toastTimer =
+        setTimeout(
+            function(){
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+
+}
+
+</script>
+
+</body>
+</html>
